@@ -1,0 +1,1 @@
+aws s3 sync s3://mzq-mzqplan-s3bucket/mzqplan-aws-cloud/e_drive/MZQPlans E:\MZQPlans
