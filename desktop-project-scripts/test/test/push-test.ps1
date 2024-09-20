@@ -1,0 +1,1 @@
+aws s3 sync E:\test s3://mzq-mzqplan-s3bucket/mzqplan-aws-cloud/e_drive/test

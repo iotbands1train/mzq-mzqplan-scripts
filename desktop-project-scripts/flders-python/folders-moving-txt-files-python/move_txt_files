@@ -1,0 +1,48 @@
+import os
+import shutil
+"""
+    Moves .txt files in the specified base directory into folders with the same name as the file (without the extension).
+
+    Parameters:
+    base_dir (str): The path to the base directory containing the .txt files.
+
+    Process:
+    - Lists all .txt files in the base directory.
+    - For each .txt file, extracts the file name without the extension to use as the folder name.
+    - Creates a new folder with the same name as the file (if it doesn't already exist).
+    - Moves the .txt file into the corresponding folder.
+
+    Example:
+    Given a base directory with files "example.txt" and "test.txt":
+    - "example.txt" will be moved to a folder named "example".
+    - "test.txt" will be moved to a folder named "test".
+"""
+def move_txt_files_to_folders(base_dir):
+    try:
+        # Get the list of .txt files in the base directory
+        txt_files = [f for f in os.listdir(base_dir) if f.endswith('.txt')]
+        
+        for txt_file in txt_files:
+            # Get the name of the .txt file without the extension
+            folder_name = os.path.splitext(txt_file)[0]
+            folder_path = os.path.join(base_dir, folder_name)
+            
+            # Create the folder if it doesn't exist
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+            
+            # Move the .txt file into the folder
+            src_file_path = os.path.join(base_dir, txt_file)
+            dest_file_path = os.path.join(folder_path, txt_file)
+            shutil.move(src_file_path, dest_file_path)
+            
+            print(f"Moved {txt_file} to {folder_path}")
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Define the base directory
+base_dir = 'E:/test/'
+
+# Move .txt files into folders with the same name
+move_txt_files_to_folders(base_dir)

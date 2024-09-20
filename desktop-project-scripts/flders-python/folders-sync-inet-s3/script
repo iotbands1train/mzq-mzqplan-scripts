@@ -1,0 +1,2 @@
+aws s3 sync C:\inetpub s3://mzq-mzqplan-s3bucket/mzqplan-aws-cloud/c_drive/inetpub
+
