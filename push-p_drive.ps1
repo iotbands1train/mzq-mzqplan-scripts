@@ -1,0 +1,1 @@
+aws s3 sync "P:\" "s3://mzq-mzqplan-s3bucket/mzqplan-aws-cloud/p_drive/"
