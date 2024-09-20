@@ -1,0 +1,6 @@
+boto3
+pandas
+openpyxl
+xlrd
+configparser
+#pip install -r .\requirements.txt
