@@ -1,0 +1,1 @@
+aws s3 cp "P:\s3_directory_sync_report-tested-Automated S3 Directory Sync with Python and Boto3.zip" "s3://mzq-mzqplan-s3bucket/mzqplan-aws-cloud/zip-1-test/"
