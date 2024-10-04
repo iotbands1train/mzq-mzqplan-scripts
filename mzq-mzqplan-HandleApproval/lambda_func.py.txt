@@ -1,0 +1,57 @@
+import boto3
+from botocore.exceptions import ClientError
+
+def lambda_handler(event, context):
+    try:
+        # Check if queryStringParameters exists
+        if 'queryStringParameters' not in event:
+            raise ValueError("Missing queryStringParameters in event")
+        
+        s3_key = event['queryStringParameters'].get('s3_key')
+        bucket_name = event['queryStringParameters'].get('bucket_name')
+        action = event['queryStringParameters'].get('action')
+
+        # Perform the required action
+        if action == 'approve':
+            handle_approval(s3_key, bucket_name)
+        elif action == 'deny':
+            handle_denial(s3_key, bucket_name)
+        else:
+            raise ValueError(f"Invalid action: {action}")
+
+        return {
+            'statusCode': 200,
+            'body': f"Action {action} performed on {s3_key} in bucket {bucket_name}."
+        }
+
+    except ClientError as e:
+        print(f"ClientError: {e}")
+        return {
+            'statusCode': 500,
+            'body': f"ClientError: {e.response['Error']['Message']}"
+        }
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return {
+            'statusCode': 500,
+            'body': f"Error: {str(e)}"
+        }
+
+def handle_approval(s3_key, bucket_name):
+    s3 = boto3.client('s3')
+    copy_source = {'Bucket': bucket_name, 'Key': s3_key}
+    try:
+        s3.copy_object(CopySource=copy_source, Bucket=bucket_name, Key=f"approved/{s3_key}")
+    except ClientError as e:
+        print(f"Failed to approve: {e}")
+        raise
+
+def handle_denial(s3_key, bucket_name):
+    s3 = boto3.client('s3')
+    copy_source = {'Bucket': bucket_name, 'Key': s3_key}
+    try:
+        s3.copy_object(CopySource=copy_source, Bucket=bucket_name, Key=f"denied/{s3_key}")
+    except ClientError as e:
+        print(f"Failed to deny: {e}")
+        raise
